@@ -1,16 +1,17 @@
-import { useState } from 'react'
+import { Routes, Route } from "react-router-dom";
 
+import Home from "./pages/Home";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1 className="text-6xl text-red-600 bg-yellow-200 p-4">
-        Site Under Construction
-      </h1>
-    </>
-  )
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
