@@ -4,9 +4,7 @@ import { LayoutDashboard, Image, FileText, LogOut, Menu, X } from "lucide-react"
 
 export default function Sidebar({ onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
-
-  // Navbar height in pixels
-  const navbarHeight = 64; // adjust if navbar height changes
+  const navbarHeight = 64; // Navbar height in pixels
 
   return (
     <>
@@ -23,10 +21,12 @@ export default function Sidebar({ onLogout }) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed left-0 w-64 bg-[#002C77] text-white flex flex-col p-6 transition-transform duration-300 ease-in-out z-50
-          md:top-0 md:h-screen md:translate-x-0
-          ${isOpen ? `top-[${navbarHeight}px] translate-x-0 h-[calc(100vh-${navbarHeight}px)]` : `-translate-x-full`}
+          fixed left-0 w-64 bg-[#002C77] text-white flex flex-col p-6 shadow-lg
+          transform transition-transform duration-300 ease-in-out z-50
+          md:translate-x-0
+          ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
         `}
+        style={{ top: `${navbarHeight}px`, bottom: "0" }}
       >
         {/* Header */}
         <div className="text-2xl font-bold border-b border-[#F5B041] pb-4 mb-4">
@@ -73,13 +73,19 @@ export default function Sidebar({ onLogout }) {
         </button>
       </aside>
 
-      {/* Blur Overlay for mobile */}
+      {/* Mobile overlay */}
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
-          className={`fixed top-[${navbarHeight}px] left-0 w-full h-[calc(100vh-${navbarHeight}px)] backdrop-blur-sm bg-black/20 z-40 md:hidden`}
+          className="fixed left-0 w-full bg-black/20 backdrop-blur-sm z-40 md:hidden"
+          style={{ top: `${navbarHeight}px`, bottom: "0" }}
         />
       )}
+
+      {/* Main content wrapper for responsiveness */}
+      <div className="md:ml-64 pt-[64px]">
+        {/* Your page content goes here */}
+      </div>
     </>
   );
 }

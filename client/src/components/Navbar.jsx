@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import logo from "../assets/nei_logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { User, Menu, X } from "lucide-react";
@@ -11,21 +11,37 @@ export default function Navbar({ role, setRole }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Handle role selection
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleRoleSelect = (selectedRole) => {
     if (selectedRole === "student") {
       setRole("student");
       sessionStorage.setItem("role", "student");
       setDropdownOpen(false);
-      navigate("/"); // redirect to homepage
+      navigate("/"); 
     } else if (selectedRole === "admin") {
       setShowAdminModal(true);
       setDropdownOpen(false);
     }
-    setMobileMenuOpen(false); // close mobile menu if open
+    setMobileMenuOpen(false);
   };
 
-  // Admin login
   const handleAdminLogin = async () => {
     setError("");
     try {
@@ -35,7 +51,6 @@ export default function Navbar({ role, setRole }) {
         body: JSON.stringify({ password }),
       });
       const data = await res.json();
-
       if (data.success) {
         setRole("admin");
         sessionStorage.setItem("role", "admin");
@@ -51,7 +66,6 @@ export default function Navbar({ role, setRole }) {
     }
   };
 
-  // Logout
   const handleLogout = () => {
     setRole("student");
     sessionStorage.setItem("role", "student");
@@ -81,7 +95,7 @@ export default function Navbar({ role, setRole }) {
         {/* User Icon & Mobile Menu */}
         <div className="flex items-center space-x-3">
           {/* User Dropdown */}
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="p-2 rounded-full hover:bg-[#F5B041]/20 transition"

@@ -43,11 +43,11 @@ export default function Contact() {
                 <strong>Phone:</strong> +91 8322659244
               </p>
               <p>
-                <strong>Email:</strong> info@neischool.in
+                <strong>Email:</strong> kakodkarnei@gmail.com
               </p>
               <p>
                 <strong>Working Hours:</strong><br />
-                Monday – Saturday, 8:30 AM – 3:30 PM
+                Monday – Saturday, 7:00 AM – 1:30 PM
               </p>
             </div>
 

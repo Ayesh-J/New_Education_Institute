@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
-import AdminDashboard from "./pages/AdminDashboard";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminGallery from "./pages/AdminGallery"; // import the admin gallery component
 
 function App() {
   const [role, setRole] = useState(null);
@@ -22,7 +24,7 @@ function App() {
 
   // Protect admin route for students
   useEffect(() => {
-    if (role === "student" && window.location.pathname === "/admin") {
+    if (role === "student" && window.location.pathname.startsWith("/admin")) {
       navigate("/", { replace: true }); // redirect student away from admin
     }
   }, [role, navigate]);
@@ -45,7 +47,6 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
-          
 
           {/* Admin Dashboard protected route */}
           <Route
@@ -58,8 +59,22 @@ function App() {
               )
             }
           />
+
+          {/* Admin Gallery protected route */}
+          <Route
+            path="/admin/gallery"
+            element={
+              role === "admin" ? (
+                <AdminGallery />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          />
         </Routes>
       </main>
+<Footer/>
+
     </div>
   );
 }
